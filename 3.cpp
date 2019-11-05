@@ -13,7 +13,7 @@ public:
 			char_map[s[i]]++;
 			if (char_map[s[i]] == 1) {
 				word += s[i];
-				if (result < word.length()) {
+				if (result < word.length()) {  //打擂法更新最大值
 					result = word.length();
 				}
 			}
