@@ -18,7 +18,7 @@ public:
 				}
 			}
 			else {
-				while (begin < i && char_map[s[i]]>1) {
+				while (char_map[s[i]]>1) {
 					char_map[s[begin]]--;
 					begin++;
 				}
