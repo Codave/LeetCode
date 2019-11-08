@@ -32,6 +32,7 @@ public:
 				}
 			}
 		}
+		return 0;	//必须有返回类型
 	}
 	bool connect(string& word1, string& word2) {
 		int cnt = 0;
