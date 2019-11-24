@@ -26,7 +26,7 @@ int main() {
 
 	vector<int> nums1 = { 1,2,2,1 };
 	vector<int> nums2 = { 2,2 };
-	vector<int> res = Solution().intersection(nums1, nums2);
+	vector<int> res = Solution().intersect(nums1, nums2);
 	for (vector<int>::iterator iter = res.begin(); iter != res.end(); iter++) {
 		cout << *iter << " ";
 	}
