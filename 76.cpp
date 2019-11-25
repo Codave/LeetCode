@@ -1,78 +1,82 @@
-#include<vector>
-#include<set>
-#include<queue>
-#include<string>
-#include<map>
+#include<iostream>
+#include<algorithm>
+#include<unordered_map>
 using namespace std;
 
+//解法一
+//class Solution {
+//public:
+//	string minWindow(string s, string t) {
+//		// 记录最短子串的开始位置和长度
+//		int start = 0, minLen = INT_MAX;
+//		int left = 0, right = 0;
+//
+//		unordered_map<char, int> window;
+//		unordered_map<char, int> needs;
+//		for (char c : t) needs[c]++;
+//
+//		int match = 0;
+//
+//		while (right < s.size()) {
+//			char c1 = s[right];
+//			if (needs.count(c1)) {
+//				window[c1]++;
+//				if (window[c1] == needs[c1])
+//					match++;
+//			}
+//			right++;
+//
+//			while (match == needs.size()) {
+//				if (right - left < minLen) {
+//					// 更新最小子串的位置和长度
+//					start = left;
+//					minLen = right - left;
+//				}
+//				char c2 = s[left];
+//				if (needs.count(c2)) {
+//					window[c2]--;
+//					if (window[c2] < needs[c2])
+//						match--;
+//				}
+//				left++;
+//			}
+//		}
+//		return minLen == INT_MAX ?
+//			"" : s.substr(start, minLen);
+//	}
+//};
+
+//解法二
 class Solution {
 public:
-	int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-		map<string, vector<string>> graph;
-		construct_graph(beginWord, wordList, graph);
-		return BFS_graph(beginWord, endWord, graph);
-	}
-	int BFS_graph(string& beginWord, string& endWord, map<string, vector<string>>& graph) {
-		queue<pair<string, int>> Q;	//搜索队列<顶点，步数>
-		set<string> visit;	//记录已访问的顶点
-		Q.push(make_pair(beginWord, 1));	//添加起始点，起始点步数为1
-		visit.insert(beginWord);
-		while (!Q.empty()) {
-			string node = Q.front().first;
-			int step = Q.front().second;
-			Q.pop();
-			if (node == endWord) {
-				return step;
-			}
-			const vector<string>& neighbors = graph[node];	//取邻接表map写法的key对应的value
-			for (int i = 0; i < neighbors.size(); i++) {
-				if (visit.find(neighbors[i]) == visit.end()) {
-					Q.push(make_pair(neighbors[i], step + 1));
-					visit.insert(neighbors[i]);
+	string minWindow(string s, string t) {
+		int count[256] = { 0 };
+		for (auto c : t) ++count[c];
+		int len = 0, minLength = s.length();
+		string res;
+		for (int l = 0, r = 0; r < s.length(); ++r) {
+			count[s[r]]--;
+			if (count[s[r]] >= 0) ++len;
+			while (len == t.length()) {
+				if (r - l + 1 <= minLength) {
+					minLength = r - l + 1;
+					res = s.substr(l, r - l + 1);
 				}
+				count[s[l]]++;
+				if (count[s[l]] > 0) --len;
+				++l;
 			}
 		}
-		return 0;	//必须有返回类型
-	}
-	bool connect(string& word1, string& word2) {
-		int cnt = 0;
-		for (int i = 0; i < word1.length(); i++) {
-			if (word1[i] != word2[i]) {
-				cnt++;
-			}
-		}
-		return cnt == 1;
-	}
-	void construct_graph(string& beginWord, vector<string>& wordList, map<string, vector<string>>& graph) {
-		wordList.push_back(beginWord);
-		for (int i = 0; i < wordList.size(); i++) {
-			graph[wordList[i]] = vector<string>();	//建立二维vector的索引
-		}
-		for (int i = 0; i < wordList.size(); i++) {
-			for (int j = i + 1; j < wordList.size(); j++) {
-				if (connect(wordList[i], wordList[j])) {
-					graph[wordList[i]].push_back(wordList[j]);
-					graph[wordList[j]].push_back(wordList[i]);
-				}
-			}
-		}
+		return res;
 	}
 };
 
 int main() {
 
-	string beginWord = "hit";
-	string endWord = "cog";
-	vector<string> wordList;
-	wordList.push_back("hot");
-	wordList.push_back("dot");
-	wordList.push_back("dog");
-	wordList.push_back("lot");
-	wordList.push_back("log");
-	wordList.push_back("cog");
-	Solution solve;
-	int result = solve.ladderLength(beginWord, endWord, wordList);
-	printf("rsult=%d\n", result);
+	string S = "ADOBECODEBANC";
+	string T = "ABC";
+	string res = Solution().minWindow(S, T);
+	cout << res << endl;
 
 	return 0;
 }
