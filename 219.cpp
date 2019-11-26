@@ -8,7 +8,7 @@ public:
 	bool containsNearbyDuplicate(vector<int>& nums, int k) {
 		unordered_set<int> record;
 		for (int i = 0; i < nums.size(); i++) {
-			if (record.find(nums[i]) != record.end()) {
+			if (record.find(nums[i]) != record.end()) {	//nums[i]==nums[j],´ËÊ±j-i<=k
 				return true;
 			}
 			record.insert(nums[i]);
