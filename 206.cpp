@@ -7,17 +7,34 @@ struct ListNode {
 	ListNode(int x) : val(x), next(NULL) {}
 };
 
+//解法一
+//class Solution {
+//public:
+//	ListNode* reverseList(ListNode* head) {
+//		ListNode new_head(0);  //0代表初始化NULL,是因为上面有初始化列表
+//		while (head) {
+//			ListNode* next = head->next;
+//			head->next = new_head.next;
+//			new_head.next = head;
+//			head = next;
+//		}
+//		return new_head.next;
+//	}
+//};
+
+//解法二
 class Solution {
 public:
 	ListNode* reverseList(ListNode* head) {
-		ListNode new_head(0);  //0代表初始化NULL,是因为上面有初始化列表
-		while (head) {
-			ListNode* next = head->next;
-			head->next = new_head.next;
-			new_head.next = head;
-			head = next;
+		ListNode* pre = NULL;
+		ListNode* cur = head;
+		while (cur) {
+			ListNode* next = cur->next;
+			cur->next = pre;
+			pre = cur;
+			cur = next;
 		}
-		return new_head.next;
+		return pre;
 	}
 };
 
