@@ -65,6 +65,4 @@ int main() {
 		head = head->next;
 	}
 	return 0;
-
-	return 0;
 }
