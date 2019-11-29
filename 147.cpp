@@ -4,54 +4,62 @@ using namespace std;
 struct ListNode {
 	int val;
 	ListNode* next;
-	ListNode(int x) : val(x), next(NULL) {}
+	ListNode(int x):val(x),next(NULL){ }
 };
 
 class Solution {
-private:
-	ListNode* reverse(ListNode* head) {
-		ListNode* root = nullptr;
-		while (head) {
-			ListNode* next = head->next;
-			head->next = root;
-			root = head;
-			head = next;
-		}
-		return root;
-	}
 public:
-	bool isPalindrome(ListNode* head) {
-		if (!head || !head->next) return true;
-		ListNode* fast = head, * slow = head;
-		while (fast && fast->next) {
-			fast = fast->next->next;
-			slow = slow->next;
-		}
-		if (fast) // ³¤¶ÈÎªÆæ 5 / 2 = 2 
-			slow = slow->next; //2->3
-		slow = reverse(slow);
-		while (head && slow) {
-			if (head->val != slow->val) return false;
-			head = head->next;
-			slow = slow->next;
-		}
-		return true;
+	ListNode* insertionSortList(ListNode* head) {
+		if (head == NULL) return head;
+		ListNode dummy(0);
+		dummy.next = head;
 
+		ListNode* cur = head;
+		ListNode* pre = NULL;
+		while (cur) {
+			if (cur->next && cur->next->val < cur->val) {
+				pre = &dummy;
+				while (cur->next && pre->next && cur->next->val > pre->next->val) {
+					pre = pre->next;
+				}
+
+				ListNode* temp = cur->next;
+				cur->next = temp->next;
+				temp->next = pre->next;
+				pre->next = temp;
+			}
+			else {
+				cur = cur->next;
+			}
+		}
+		return dummy.next;
 	}
 };
+
 int main() {
-	ListNode a(1);
-	ListNode b(1);
-	ListNode c(1);
-	ListNode d(2);
-	ListNode e(3);
+	
+	ListNode a(-1);
+	ListNode b(5);
+	ListNode c(3);
+	ListNode d(4);
+	ListNode e(0);
+	ListNode f(7);
 	a.next = &b;
 	b.next = &c;
 	c.next = &d;
 	d.next = &e;
+	e.next = &f;
 
-	int res = Solution().isPalindrome(&a);
-	cout << res << endl;
+	ListNode* head = Solution().insertionSortList(&a);
+	while (head) {
+		if (head->next) {
+			cout << head->val << "->";
+		}
+		else {
+			cout << head->val << "->NULL";
+		}
+		head = head->next;
+	}
 
 	return 0;
 }
