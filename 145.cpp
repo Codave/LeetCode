@@ -66,43 +66,28 @@ struct TreeNode {
 //解法三（迭代）[栈模拟递归]
 class Solution {
 public:
-	vector<int> preorderTraversal(TreeNode* root) {
+	vector<int> postorderTraversal(TreeNode* root) {
 		vector<int> ret;
 		if (!root)	return ret;
 		stack<TreeNode*> st;
 		TreeNode* p = root;
+		TreeNode* lastVisit = NULL;
 		while (p || !st.empty()) {
-			while (p) {
-				ret.push_back(p->val);
+			if (p) {
 				st.push(p);
 				p = p->left;
 			}
-			p = st.top();
-			st.pop();
-			p = p->right;
-		}
-		return ret;
-	}
-};
-
-//解法四（迭代）[栈模拟递归]
-class Solution {
-public:
-	vector<int> inorderTraversal(TreeNode* root) {
-		vector<int> ret;
-		if (!root)	return ret;
-		stack<TreeNode*> st;
-		st.push(root);
-		while (!st.empty()) {
-			TreeNode* node = st.top();
-			st.pop();
-			
-			if (node->right) {
-				st.push(node->right);	//先入右边
-			}
-			ret.push_back(node->val);
-			if (node->left) {
-				st.push(node->left);	//后入左边
+			else {
+				TreeNode* v = st.top();
+				//
+				if (v->right && v->right != lastVisit) {
+					p = v->right;
+				}
+				else {
+					ret.push_back(v->val);
+					lastVisit = v;
+					st.pop();
+				}
 			}
 		}
 		return ret;
