@@ -107,22 +107,16 @@ public:
 	}
 };
 
-void preorder_print(TreeNode* node, int layer) {
-	if (!node) {
-		return;
-	}
-	printf("[%d] ", node->val);
-	preorder_print(node->left, layer + 1);
-	preorder_print(node->right, layer + 1);
-}
-
 int main() {
 	TreeNode a(1);
 	TreeNode b(2);
 	TreeNode c(3);
 	a.right = &b;
 	b.left = &c;
-	preorder_print(&a, 0);
+	vector<int> res = Solution().preorderTraversal(&a);
+	for (auto iter = res.begin(); iter != res.end(); iter++) {
+		cout << *iter << " ";
+	}
 
 	return 0;
 }
