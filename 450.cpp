@@ -1,0 +1,105 @@
+#include<iostream>
+using namespace std;
+
+struct TreeNode {
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	TreeNode* deleteNode(TreeNode* root, int key) {
+		TreeNode* cur = root;
+		TreeNode* pre = root;
+		while (cur && cur->val != key) {
+			pre = cur;
+			if (key < cur->val) {
+				cur = cur->left;
+			}
+			else {
+				cur = cur->right;
+			}
+		}
+		if (!cur) {
+			return root;
+		}
+		if (!cur->left && !cur->right) {
+			if (cur == root) {
+				return NULL;
+			}
+			if (pre->left == cur) {
+				pre->left = NULL;
+			}
+			else {
+				pre->right = NULL;
+			}
+		}
+		else if (cur->left && !cur->right) {
+			if (cur == root) {
+				return cur->left;
+			}
+			if (pre->left == cur) {
+				pre->left = cur->left;
+			}
+			else {
+				pre->right = cur->left;
+			}
+		}
+		else if (cur->right && !cur->left) {
+			if (cur == root) {
+				return cur->right;
+			}
+			if (pre->left == cur) {
+				pre->left = cur->right;
+			}
+			else {
+				pre->right = cur->right;
+			}
+		}
+		else {
+			TreeNode* b = cur->left;
+			while (b->right) {
+				b = b->right;
+			}
+			b->right = cur->right->left;
+			cur->right->left = cur->left;
+			if (cur == root) {
+				return cur->right;
+			}
+			if (pre->left == cur) {
+				pre->left = cur->right;
+			}
+			else {
+				pre->right = cur->right;
+			}
+		}
+		return root;
+	}
+};
+
+void preorder_print(TreeNode* root) {
+	if (root == NULL) return;
+	cout << root->val << " ";
+	preorder_print(root->right);
+	preorder_print(root->left);
+}
+
+int main() {
+	TreeNode a(5);
+	TreeNode b(3);
+	TreeNode c(6);
+	TreeNode d(2);
+	TreeNode e(4);
+	TreeNode f(7);
+	a.left = &b;
+	a.right = &c;
+	b.left = &d;
+	b.right = &e;
+	c.right = &f;
+	TreeNode* root = Solution().deleteNode(&a, 3);
+	preorder_print(root);
+
+	return 0;
+}
