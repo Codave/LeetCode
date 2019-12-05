@@ -19,15 +19,19 @@ private:
 	};
 	vector<string> res;
 	void findCombination(const string& digits, int index, const string& s) {
+		//cout << index << ':' << s << endl;
 		if (index == digits.size()) {
 			res.push_back(s);
+			//cout << "get " << s << ",return" << endl;
 			return;
 		}
 		char c = digits[index];
 		string letters = letterMap[c - '0'];
 		for (int i = 0; i < letters.size(); i++) {
+			//cout << "digits[" << index << "]=" << c << ",use " << letters[i] << endl;
 			findCombination(digits, index + 1, s + letters[i]);
 		}
+		//cout << "digits[" << index << "]=" << c << " complete,return" << endl;
 		return;
 	}
 public:
