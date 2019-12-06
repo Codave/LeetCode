@@ -1,9 +1,10 @@
-//#include<cstdio>
-//#include<vector>
-//#include<set>
-//#include<algorithm>
-//using namespace std;
-//
+#include<cstdio>
+#include<vector>
+#include<set>
+#include<algorithm>
+using namespace std;
+
+//解法一
 //class Solution {
 //public:
 //	vector<vector<int>> subsetsWithDup(vector<int>& nums) {
@@ -30,21 +31,45 @@
 //		generate(i + 1, nums, result, item, res_set);
 //	}
 //};
-//
-//int main() {
-//	vector<int> nums({ 2, 1, 2, 2 });
-//	vector<vector<int>> result;
-//	Solution solve;
-//	result = solve.subsetsWithDup(nums);
-//	for (int i = 0; i < result.size(); i++) {
-//		if (result[i].size() == 0) {
-//			printf("[]");
-//		}
-//		for (int j = 0; j < result[i].size(); j++) {
-//			printf("[%d]", result[i][j]);
-//		}
-//		printf("\n");
-//	}
-//
-//	return 0;
-//}
+
+
+//解法二
+class Solution {
+public:
+	vector<vector<int>> subsetsWithDup(vector<int>& S) {
+		if (S.empty()) return {};
+		vector<vector<int>> res;
+		vector<int> out;
+		sort(S.begin(), S.end());
+		getSubsets(S, 0, out, res);
+		return res;
+	}
+	void getSubsets(vector<int>& S, int pos, vector<int>& out, vector<vector<int>>& res) {
+		res.push_back(out);
+		for (int i = pos; i < S.size(); ++i) {
+			//if (i > pos&& S[i - 1] == S[i]) continue;
+			out.push_back(S[i]);
+			getSubsets(S, i + 1, out, res);
+			out.pop_back();
+			while (i + 1 < S.size() && S[i] == S[i + 1]) ++i;
+		}
+	}
+};
+
+int main() {
+	vector<int> nums({ 1, 2, 2 });
+	vector<vector<int>> result;
+	Solution solve;
+	result = solve.subsetsWithDup(nums);
+	for (int i = 0; i < result.size(); i++) {
+		if (result[i].size() == 0) {
+			printf("[]");
+		}
+		for (int j = 0; j < result[i].size(); j++) {
+			printf("[%d]", result[i][j]);
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
