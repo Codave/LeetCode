@@ -1,9 +1,9 @@
-//#include<cstdio>
-//#include<vector>
-//#include<set>
-//#include<algorithm>
-//using namespace std;
-//
+#include<cstdio>
+#include<vector>
+#include<set>
+#include<algorithm>
+using namespace std;
+
 //class Solution {
 //public:
 //	vector<vector<int>> combinationSum2(vector<int>& candidates,int target) {
@@ -43,21 +43,50 @@
 //		generate(i + 1, nums, result, item, res_set, sum, target);
 //	}
 //};
-//
-//int main() {
-//	vector<int> nums({ 10, 1, 2, 7, 6, 1, 5 });
-//	vector<vector<int>> result;
-//	Solution solve;
-//	result = solve.combinationSum2(nums,8);
-//	for (int i = 0; i < result.size(); i++) {
-//		if (result[i].size() == 0) {
-//			printf("[]");
-//		}
-//		for (int j = 0; j < result[i].size(); j++) {
-//			printf("[%d]", result[i][j]);
-//		}
-//		printf("\n");
-//	}
-//
-//	return 0;
-//}
+
+//½â·¨¶þ
+class Solution {
+public:
+	vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+		vector<int> out;
+		sort(candidates.begin(), candidates.end());
+		sumDfs(candidates, target, 0, out);
+		return res;
+	}
+	void sumDfs(vector<int>& candidates, int target, int start, vector<int>& out) {
+		if (target < 0) {
+			return;
+		}
+		if (target == 0) {
+			res.push_back(out);
+			return;
+		}
+		for (int i = start; i < candidates.size(); i++) {
+			if (i > start && candidates[i] == candidates[i - 1]) continue;
+			out.push_back(candidates[i]);
+			sumDfs(candidates, target - candidates[i], i+1, out);
+			out.pop_back();
+		}
+		return;
+	}
+private:
+	vector<vector<int>> res;
+};
+
+int main() {
+	vector<int> nums({ 10, 1, 2, 7, 6, 1, 5 });
+	vector<vector<int>> result;
+	Solution solve;
+	result = solve.combinationSum2(nums,8);
+	for (int i = 0; i < result.size(); i++) {
+		if (result[i].size() == 0) {
+			printf("[]");
+		}
+		for (int j = 0; j < result[i].size(); j++) {
+			printf("[%d]", result[i][j]);
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
