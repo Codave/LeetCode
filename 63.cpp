@@ -7,8 +7,7 @@ public:
 	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
 		int m = obstacleGrid.size(); //行数
 		int n = obstacleGrid[0].size();//列数
-		long p[m][n];
-
+		vector<vector<long>> p(m, vector<long>(n, 0));
 		//第一列赋值 
 		int k = 0;
 		while (k < m && obstacleGrid[k][0] != 1)
