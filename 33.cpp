@@ -2,6 +2,7 @@
 #include<cstdio>
 using namespace std;
 
+//解法一
 class Solution {
 public:
 	int search(vector<int>& nums, int target) {
@@ -45,6 +46,31 @@ public:
 				}
 			}
 		}
+		return -1;
+	}
+};
+
+//解法二
+class Solution {
+public:
+	int search(vector<int>& nums, int target) {
+		if (nums.empty()) return -1;
+		//找到最小值
+		int l = 0;
+		int r = nums.size() - 1;
+		while (l < r) {
+			int mid = l + r >> 1;
+			if (nums[mid] <= nums.back()) r = mid;
+			else l = mid + 1;
+		}
+		if (target <= nums.back()) r = nums.size() - 1;
+		else l = 0, r--;
+		while (l < r) {
+			int mid = l + r >> 1;
+			if (nums[mid] >= target) r = mid;
+			else l = mid + 1;
+		}
+		if (nums[l] == target) return l;
 		return -1;
 	}
 };
