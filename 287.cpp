@@ -1,4 +1,4 @@
-// 在区间 [1, n] 中搜索，首先求出中点 mid，然后遍历整个数组，统计所有小于等于 mid 的数的个数，如果个数小于等于 mid，则说明重复值在 [mid+1, n] 之间，反之，重复值应在 [1, mid-1] 之间，然后依次类推，直到搜索完成
+//解法一：二分  在区间 [1, n] 中搜索，首先求出中点 mid，然后遍历整个数组，统计所有小于等于 mid 的数的个数，如果个数小于等于 mid，则说明重复值在 [mid+1, n] 之间，反之，重复值应在 [1, mid-1] 之间，然后依次类推，直到搜索完成
 class Solution {
 public:
 	int findDuplicate(vector<int>& nums) {
@@ -12,5 +12,24 @@ public:
 			else right = mid;
 		}
 		return right;
+	}
+};
+
+//解法二 循环检测   快慢指针
+class Solution {
+public:
+	int findDuplicate(vector<int>& nums) {
+		int slow = 0, fast = 0, t = 0;
+		while (true) {
+			slow = nums[slow];
+			fast = nums[nums[fast]];
+			if (slow == fast) break;
+		}
+		while (true) {
+			slow = nums[slow];
+			t = nums[t];
+			if (slow == t) break;
+		}
+		return slow;
 	}
 };
