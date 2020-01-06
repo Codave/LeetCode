@@ -19,6 +19,19 @@ public:
 class Solution {
 public:
 	int singleNumber(vector<int>& nums) {
+		unordered_set<int> st;
+		for (int num : nums) {
+			if (st.count(num)) st.erase(num);
+			else st.insert(num);
+		}
+		return *st.begin();
+	}
+};
+
+//½â·¨Èı
+class Solution {
+public:
+	int singleNumber(vector<int>& nums) {
 		int res = 0;
 		for (auto x : nums) {
 			res ^= x;
