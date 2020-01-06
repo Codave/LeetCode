@@ -14,10 +14,10 @@ public:
 		dummyHead.next = head;
 		ListNode* p = &dummyHead;
 		ListNode* q = p;
-		for(int i=0;i<n+1;i++){
+		for (int i = 0; i < n; i++) {
 			q = q->next;
 		}
-		while (q) {
+		while (q->next) {
 			q = q->next;
 			p = p->next;
 		}
