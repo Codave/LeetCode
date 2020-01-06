@@ -15,20 +15,7 @@ public:
 	}
 };
 
-//解法二
-class Solution {
-public:
-	int singleNumber(vector<int>& nums) {
-		unordered_set<int> st;
-		for (int num : nums) {
-			if (st.count(num)) st.erase(num);
-			else st.insert(num);
-		}
-		return *st.begin();
-	}
-};
-
-//解法三 循环检测   快慢指针
+//解法二 循环检测   快慢指针
 class Solution {
 public:
 	int findDuplicate(vector<int>& nums) {
