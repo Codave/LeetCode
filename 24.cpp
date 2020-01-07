@@ -7,6 +7,7 @@ struct ListNode {
 	ListNode(int x) : val(x), next(NULL) {}
 };
 
+//解法一
 class Solution {
 public:
 	ListNode* swapPairs(ListNode* head) {
@@ -21,6 +22,25 @@ public:
 			node2->next = node1;
 			node1->next = next;
 			p->next = node2;
+			p = node1;
+		}
+		return dummyHead.next;
+	}
+};
+
+//解法二
+class Solution {
+public:
+	ListNode* swapPairs(ListNode* head) {
+		ListNode dummyHead(0);
+		ListNode* p = &dummyHead;
+		dummyHead.next = head;
+		while (p->next && p->next->next) {
+			ListNode* node1 = p->next;
+			ListNode* node2 = node1->next;
+			p->next = node2;
+			node1->next = node2->next;
+			node2->next = node1;
 			p = node1;
 		}
 		return dummyHead.next;
