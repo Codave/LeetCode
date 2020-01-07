@@ -8,6 +8,7 @@ struct ListNode {
 
 };
 
+//解法一
 class Solution {
 public:
 	ListNode* detectCycle(ListNode* head) {
@@ -37,5 +38,33 @@ public:
 			meet = meet->next;
 		}
 		return NULL;  //
+	}
+};
+
+//解法二
+class Solution {
+public:
+	ListNode* detectCycle(ListNode* head) {
+		ListNode* fast = head;
+		ListNode* slow = head;
+		while (fast) {
+			slow = slow->next;
+			fast = fast->next;
+			if (!fast) {  // 如果fast遇到链表尾
+				break;
+			}
+			fast = fast->next;
+			if (fast == slow) {
+				slow = head;
+				while (slow && fast) {
+					if (slow == fast) {
+						return slow;
+					}
+					slow = slow->next;
+					fast = fast->next;
+				}
+			}
+		}
+		return NULL;
 	}
 };
