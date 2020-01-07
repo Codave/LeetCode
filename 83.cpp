@@ -7,6 +7,7 @@ struct ListNode {
 	ListNode(int x) : val(x), next(NULL) {}
 };
 
+//方法一
 class Solution {
 public:
 	ListNode* deleteDuplicates(ListNode* head) {
@@ -23,6 +24,24 @@ public:
 				next = next->next;
 			}
 			
+		}
+		return head;
+	}
+};
+
+//方法二
+class Solution {
+public:
+	ListNode* deleteDuplicates(ListNode* head) {
+		if (!head || !head->next) return head;
+		ListNode* cur = head;
+		while (cur) {
+			if (cur->next && cur->val == cur->next->val) {
+				cur->next = cur->next->next;
+			}
+			else {
+				cur = cur->next;
+			}
 		}
 		return head;
 	}
