@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
+#include<unordered_map>
 using namespace std;
 
 //解法一
@@ -52,6 +53,21 @@ public:
 			res = max(res, r - l + 1);
 		}
 
+		return res;
+	}
+};
+
+//解法三
+class Solution {
+public:
+	int lengthOfLongestSubstring(string s) {
+		unordered_map<char, int> hash;
+		int res = 0;
+		for (int i = 0, j = 0; i < s.size(); i++) {
+			hash[s[i]]++;
+			while (hash[s[i]] > 1) hash[s[j++]]--;
+			res = max(res, i - j + 1);
+		}
 		return res;
 	}
 };
